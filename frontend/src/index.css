@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap');
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    @apply bg-white text-brand-dark;
+  }
+  h1, h2, h3, h4 {
+    font-family: 'Nunito', sans-serif;
+  }
+}
+
+@layer utilities {
+  .animate-fade-up { animation: fadeUp 0.6s ease-out forwards; }
+}
