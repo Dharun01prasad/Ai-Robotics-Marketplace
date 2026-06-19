@@ -39,8 +39,12 @@ const start = async (): Promise<void> => {
     try {
       await mongoose.connect(MONGO_URI);
       console.log('✅  MongoDB connected');
-    } catch (err) {
-      console.warn('⚠️  MongoDB connection failed – running without DB:', err);
+    } catch (err : any) {
+      console.error("===== FULL ERROR =====");
+      console.error("Name:", err.name);
+      console.error("Message:", err.message);
+      console.error("Code:", err.code);
+      console.error(err);
     }
   } else {
     console.warn('⚠️  MONGO_URI not set – running without DB (responses will be stubs).');
