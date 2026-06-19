@@ -51,7 +51,7 @@ export const learningOutcomesData = [
     emoji: '🏆',
     title: 'Earn a Certificate',
     description:
-      'Receive a verified Kidrove certificate of completion for every participant. Celebrate your achievement with an official credential that recognizes your learning journey.',
+      'Receive a verified gemma certificate of completion for every participant. Celebrate your achievement with an official credential that recognizes your learning journey.',
     color: 'text-pink-600',
     bgColor: 'bg-pink-100',
   },

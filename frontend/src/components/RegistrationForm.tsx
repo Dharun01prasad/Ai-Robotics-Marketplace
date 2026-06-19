@@ -163,7 +163,7 @@ const RegistrationForm: React.FC = () => {
             </button>
 
             <p className="text-xs text-center text-brand-muted -mt-2">
-              By registering, you agree to Kidrove's{' '}
+              By registering, you agree to gemma's{' '}
               <a href="#" className="text-brand-blue hover:underline">Terms & Privacy Policy</a>.
             </p>
           </form>

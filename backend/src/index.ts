@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // ── Routes ───────────────────────────────────────────────────────────────────
 app.get('/health', (_req: Request, res: Response) => {
-  res.json({ status: 'ok', service: 'kidrove-workshop-api' });
+  res.json({ status: 'ok', service: 'gemma-workshop-api' });
 });
 
 app.use('/api/enquiry', enquiryRouter);
