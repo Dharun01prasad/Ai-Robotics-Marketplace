@@ -1,109 +1,100 @@
-import React, { useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { Grid2x2PlusIcon, MenuIcon } from 'lucide-react';
+import { Sheet, SheetContent, SheetFooter } from './ui/sheet';
+import { Button, buttonVariants } from './ui/button';
+import { cn } from '../lib/utils';
 
-interface TabPosition {
-  left: number;
-  width: number;
-  opacity: number;
-}
-
-interface NavItem {
+interface NavLink {
   label: string;
   id: string;
 }
 
-const navItems: NavItem[] = [
+const links: NavLink[] = [
   { label: 'Workshop Details', id: 'details' },
   { label: 'Outcomes', id: 'outcomes' },
   { label: 'FAQs', id: 'faq' },
 ];
 
 const Navbar: React.FC = () => {
-  const [scrolled, setScrolled] = useState(false);
-  const [position, setPosition] = useState<TabPosition>({ left: 0, width: 0, opacity: 0 });
-
-  React.useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10);
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  const [open, setOpen] = useState(false);
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    setOpen(false);
   };
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 h-16 bg-white transition-shadow duration-200 ${
-        scrolled ? 'shadow-sm border-b border-brand-border' : 'border-b border-transparent'
-      }`}
+    <header
+      className={cn(
+        'fixed top-3 left-1/2 -translate-x-1/2 z-50',
+        'w-[calc(100%-1.5rem)] max-w-5xl rounded-card border border-brand-border shadow-card',
+        'bg-white/95 supports-[backdrop-filter]:bg-white/80 backdrop-blur-lg',
+      )}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-full flex items-center justify-between">
+      <nav className="mx-auto flex items-center justify-between p-2">
         {/* Logo */}
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-card bg-brand-blue flex items-center justify-center">
-            <span className="text-white font-extrabold text-xs">K</span>
-          </div>
-          <span className="font-extrabold text-base text-brand-dark tracking-tight">
-            kidrove
-          </span>
+        <div
+          className="flex cursor-pointer items-center gap-2 rounded-card px-2 py-1.5 hover:bg-brand-surface duration-100"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        >
+          <Grid2x2PlusIcon className="size-5 text-brand-blue" />
+          <p className="font-extrabold text-base text-brand-dark">kidrove</p>
         </div>
 
-        {/* Animated pill nav — adapted from NavHeader */}
-        <ul
-          className="hidden md:flex relative w-fit rounded-full border border-brand-border bg-brand-surface p-1"
-          onMouseLeave={() => setPosition((pv) => ({ ...pv, opacity: 0 }))}
-        >
-          {navItems.map(({ label, id }) => (
-            <Tab key={id} id={id} setPosition={setPosition} onClick={() => scrollTo(id)}>
-              {label}
-            </Tab>
+        {/* Desktop links */}
+        <div className="hidden items-center gap-1 lg:flex">
+          {links.map((link) => (
+            <button
+              key={link.id}
+              onClick={() => scrollTo(link.id)}
+              className={buttonVariants({ variant: 'ghost', size: 'sm' })}
+            >
+              {link.label}
+            </button>
           ))}
-          <Cursor position={position} />
-        </ul>
+        </div>
 
-        <button
-          onClick={() => scrollTo('register')}
-          className="bg-brand-blue hover:bg-brand-blue-dark text-white text-sm font-semibold px-4 py-2 rounded-card transition-colors duration-150"
-        >
-          Enroll Now
-        </button>
-      </div>
-    </nav>
+        {/* Actions */}
+        <div className="flex items-center gap-2">
+          <Button size="sm" onClick={() => scrollTo('register')} className="hidden sm:inline-flex">
+            Enroll Now
+          </Button>
+
+          <Sheet open={open} onOpenChange={setOpen}>
+            <Button
+              size="icon"
+              variant="outline"
+              onClick={() => setOpen(!open)}
+              className="lg:hidden"
+            >
+              <MenuIcon className="size-4" />
+            </Button>
+            <SheetContent
+              className="bg-white/95 supports-[backdrop-filter]:bg-white/80 gap-0 backdrop-blur-lg"
+              showClose={false}
+              side="left"
+            >
+              <div className="grid gap-y-2 overflow-y-auto px-4 pt-12 pb-5">
+                <p className="font-extrabold text-base text-brand-dark px-3 pb-2">kidrove</p>
+                {links.map((link) => (
+                  <button
+                    key={link.id}
+                    onClick={() => scrollTo(link.id)}
+                    className={buttonVariants({ variant: 'ghost', className: 'justify-start' })}
+                  >
+                    {link.label}
+                  </button>
+                ))}
+              </div>
+              <SheetFooter>
+                <Button onClick={() => scrollTo('register')}>Enroll Now</Button>
+              </SheetFooter>
+            </SheetContent>
+          </Sheet>
+        </div>
+      </nav>
+    </header>
   );
 };
-
-interface TabProps {
-  children: React.ReactNode;
-  id: string;
-  onClick: () => void;
-  setPosition: React.Dispatch<React.SetStateAction<TabPosition>>;
-}
-
-const Tab: React.FC<TabProps> = ({ children, onClick, setPosition }) => {
-  const ref = useRef<HTMLLIElement>(null);
-
-  return (
-    <li
-      ref={ref}
-      onMouseEnter={() => {
-        if (!ref.current) return;
-        const { width } = ref.current.getBoundingClientRect();
-        setPosition({ width, opacity: 1, left: ref.current.offsetLeft });
-      }}
-      onClick={onClick}
-      className="relative z-10 block cursor-pointer px-4 py-2 text-sm font-medium text-brand-dark mix-blend-difference"
-    >
-      {children}
-    </li>
-  );
-};
-
-const Cursor: React.FC<{ position: TabPosition }> = ({ position }) => (
-  <motion.li
-    animate={{ left: position.left, width: position.width, opacity: position.opacity }}
-    className="absolute z-0 h-9 top-1 rounded-full bg-brand-blue"
-  />
-);
 
 export default Navbar;
