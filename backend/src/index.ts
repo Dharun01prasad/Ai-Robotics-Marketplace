@@ -19,8 +19,11 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/health', (_req: Request, res: Response) => {
   res.json({ status: 'ok', service: 'gemma-workshop-api' });
 });
-app.post('/test', (req, res) => {
-  res.json({ message: 'POST works' });
+app.post('/api/test', (req, res) => {
+  res.json({
+    success: true,
+    message: 'POST route working'
+  });
 });
 
 app.use('/api/enquiry', enquiryRouter);
