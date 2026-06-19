@@ -21,6 +21,7 @@ app.get('/health', (_req: Request, res: Response) => {
 });
 
 app.use('/api/enquiry', enquiryRouter);
+console.log('ENQUIRY ROUTE REGISTERED');
 
 // ── 404 handler ──────────────────────────────────────────────────────────────
 app.use((_req: Request, res: Response) => {
