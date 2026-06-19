@@ -79,8 +79,8 @@ const FAQSection: React.FC = () => (
 
       <p className="text-brand-muted text-sm mt-6">
         Still have a question?{' '}
-        <a href="mailto:hello@gemma.com" className="text-brand-blue font-semibold hover:underline">
-          Email hello@gemma.com
+        <a href="mailto:hello@Gema.com" className="text-brand-blue font-semibold hover:underline">
+          Email hello@Gema.com
         </a>
       </p>
     </div>

@@ -170,7 +170,7 @@ const learningOutcomes: OutcomeData[] = [
     emoji: '🏆',
     title: 'Earn a Certificate',
     description:
-      'Receive a verified gemma certificate of completion for every participant. Celebrate your achievement with an official credential that recognizes your learning journey.',
+      'Receive a verified Gema certificate of completion for every participant. Celebrate your achievement with an official credential that recognizes your learning journey.',
     color: 'text-pink-600',
     bgColor: 'bg-pink-100',
   },
@@ -267,7 +267,7 @@ const LearningOutcomes = forwardRef<HTMLElement>((_, ref) => {
         <footer className='border-t border-brand-border py-16 transition-colors duration-100' style={{ backgroundColor: bgColor }}>
           <div className='max-w-7xl mx-auto px-4 sm:px-6 text-center'>
             <h2 className='text-4xl font-bold mb-2 transition-colors duration-100' style={{ color: headingColor }}>Ready to learn?</h2>
-            <p className='transition-colors duration-100' style={{ color: subtextColor }}>Start your AI and robotics journey with gemma today.</p>
+            <p className='transition-colors duration-100' style={{ color: subtextColor }}>Start your AI and robotics journey with Gema today.</p>
           </div>
         </footer>
       </main>

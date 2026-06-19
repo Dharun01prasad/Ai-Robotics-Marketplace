@@ -38,7 +38,7 @@ const Navbar: React.FC = () => {
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         >
           <Grid2x2PlusIcon className="size-5 text-brand-blue" />
-          <p className="font-extrabold text-base text-brand-dark">gemma</p>
+          <p className="font-extrabold text-base text-brand-dark">Gema</p>
         </div>
 
         {/* Desktop links */}
@@ -75,7 +75,7 @@ const Navbar: React.FC = () => {
               side="left"
             >
               <div className="grid gap-y-2 overflow-y-auto px-4 pt-12 pb-5">
-                <p className="font-extrabold text-base text-brand-dark px-3 pb-2">gemma</p>
+                <p className="font-extrabold text-base text-brand-dark px-3 pb-2">Gema</p>
                 {links.map((link) => (
                   <button
                     key={link.id}

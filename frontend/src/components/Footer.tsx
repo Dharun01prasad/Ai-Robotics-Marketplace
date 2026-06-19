@@ -7,11 +7,11 @@ const Footer: React.FC = () => (
         <div className="w-7 h-7 rounded-card bg-brand-blue flex items-center justify-center">
           <span className="font-extrabold text-sm">K</span>
         </div>
-        <span className="font-extrabold text-base">gemma</span>
+        <span className="font-extrabold text-base">Gema</span>
       </div>
-      <p className="text-white/50 text-sm">© 2026 gemma. All rights reserved.</p>
-      <a href="mailto:hello@gemma.com" className="text-brand-orange text-sm hover:underline">
-        hello@gemma.com
+      <p className="text-white/50 text-sm">© 2026 Gema. All rights reserved.</p>
+      <a href="mailto:hello@Gema.com" className="text-brand-orange text-sm hover:underline">
+        hello@Gema.com
       </a>
     </div>
   </footer>
