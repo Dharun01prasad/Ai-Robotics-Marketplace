@@ -6,80 +6,67 @@ const Hero: React.FC = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-[#EFF6FF] via-[#EDE9FE] to-[#DBEAFE] pt-20">
-      {/* Decorative blobs */}
-      <div className="absolute top-20 right-[-80px] w-72 h-72 bg-brand-blue/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 left-[-60px] w-64 h-64 bg-brand-yellow/20 rounded-full blur-3xl pointer-events-none" />
+    <section className="relative w-full mt-16 h-[calc(100vh-64px)] overflow-hidden">
+      {/* Full-bleed background image — covers entire hero, no gaps */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage:
+            "url('https://images.pexels.com/photos/8295061/pexels-photo-8295061.jpeg?auto=compress&cs=tinysrgb&w=1920')",
+        }}
+      />
 
-      {/* Floating emoji badges */}
-      <div className="hidden lg:flex flex-col gap-4 absolute right-12 top-1/2 -translate-y-1/2 animate-float">
-        {['🤖', '🧠', '💡', '🚀'].map((emoji, i) => (
-          <div
-            key={i}
-            className="w-14 h-14 bg-white rounded-2xl shadow-lg flex items-center justify-center text-2xl"
-            style={{ animationDelay: `${i * 0.2}s` }}
-          >
-            {emoji}
+      {/* Dark gradient overlay for readability — left dark, right transparent */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            'linear-gradient(90deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.35) 45%, rgba(0,0,0,0) 75%)',
+        }}
+      />
+      {/* Bottom fade for extra contrast where text sits */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: 'linear-gradient(0deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 45%)',
+        }}
+      />
+
+      {/* Content — lower-left */}
+      <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6 flex items-end pb-14 sm:pb-20">
+        <div className="max-w-xl">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/30 text-white text-xs font-bold uppercase tracking-wide px-3 py-1.5 rounded-card mb-5">
+            <span className="w-1.5 h-1.5 rounded-full bg-brand-orange" />
+            Registrations Open
           </div>
-        ))}
-      </div>
 
-      <div className="max-w-6xl mx-auto px-4 py-16">
-        {/* Pill badge */}
-        <div className="inline-flex items-center gap-2 bg-brand-blue/10 border border-brand-blue/20 text-brand-blue text-sm font-semibold px-4 py-1.5 rounded-full mb-6">
-          <span className="w-2 h-2 rounded-full bg-brand-blue animate-pulse" />
-          Registrations Open · Starts July 15, 2026
-        </div>
+          {/* Heading */}
+          <h1 className="font-extrabold text-white leading-[1.05] mb-4 text-[42px] sm:text-[56px] lg:text-[68px]">
+            AI & Robotics<br />Summer Workshop
+          </h1>
 
-        {/* Title */}
-        <h1 className="font-display font-black text-4xl sm:text-5xl lg:text-6xl text-brand-dark leading-tight max-w-3xl mb-6">
-          AI & Robotics{' '}
-          <span className="relative">
-            <span className="relative z-10 text-brand-blue">Summer</span>
-            <span
-              className="absolute -bottom-1 left-0 right-0 h-3 bg-brand-yellow/50 -skew-x-3 rounded"
-              aria-hidden="true"
-            />
-          </span>{' '}
-          Workshop
-        </h1>
+          {/* Short description — max 2 lines */}
+          <p className="text-white/80 text-base sm:text-lg mb-7 max-w-md leading-snug">
+            Build robots, explore AI, and create exciting projects in a live
+            4-week online workshop.
+          </p>
 
-        {/* Description */}
-        <p className="text-brand-muted text-lg max-w-xl mb-8 leading-relaxed">
-          Give your child a head start in the technology of tomorrow. Over 4 exciting
-          weeks, kids aged 8–14 will build real AI models and program their own robots —
-          entirely online, from home.
-        </p>
-
-        {/* CTA group */}
-        <div className="flex flex-wrap items-center gap-4 mb-12">
-          <button
-            onClick={() => scrollTo('register')}
-            className="bg-brand-blue hover:bg-brand-indigo text-white font-display font-bold text-lg px-8 py-4 rounded-2xl shadow-lg hover:shadow-brand-blue/30 transition-all duration-200 hover:-translate-y-0.5"
-          >
-            Enroll Now — ₹2,999
-          </button>
-          <button
-            onClick={() => scrollTo('details')}
-            className="text-brand-blue font-semibold text-base flex items-center gap-1 hover:gap-2 transition-all"
-          >
-            See details <span>→</span>
-          </button>
-        </div>
-
-        {/* Quick stats */}
-        <div className="flex flex-wrap gap-6">
-          {[
-            { value: '4 Weeks',  label: 'Intensive Program' },
-            { value: '8–14 Yrs', label: 'Age Group' },
-            { value: '100%',     label: 'Online & Live' },
-            { value: '₹2,999',   label: 'All-inclusive Fee' },
-          ].map(({ value, label }) => (
-            <div key={label} className="bg-white/70 backdrop-blur rounded-2xl px-5 py-3 shadow-sm border border-white">
-              <p className="font-display font-black text-xl text-brand-dark">{value}</p>
-              <p className="text-xs text-brand-muted font-medium mt-0.5">{label}</p>
-            </div>
-          ))}
+          {/* CTAs */}
+          <div className="flex flex-wrap items-center gap-3">
+            <button
+              onClick={() => scrollTo('register')}
+              className="bg-brand-blue hover:bg-brand-blue-dark text-white font-bold text-sm px-7 py-3.5 rounded-card transition-colors duration-150"
+            >
+              Enroll Now
+            </button>
+            <button
+              onClick={() => scrollTo('details')}
+              className="border-2 border-white text-white font-bold text-sm px-7 py-3.5 rounded-card bg-transparent hover:bg-white/10 transition-colors duration-150"
+            >
+              View Details
+            </button>
+          </div>
         </div>
       </div>
     </section>

@@ -3,26 +3,20 @@ import { FormData, FormErrors, ApiResponse } from '../types';
 
 const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
-// ── Client-side validators ──────────────────────────────────────────────────
 const validate = (data: FormData): FormErrors => {
   const errors: FormErrors = {};
-
   if (!data.name.trim() || data.name.trim().length < 2) {
     errors.name = 'Please enter your full name (at least 2 characters).';
   }
-
   if (!data.email.trim() || !/^\S+@\S+\.\S+$/.test(data.email.trim())) {
     errors.email = 'Please enter a valid email address.';
   }
-
   if (!data.phone.trim() || !/^[6-9]\d{9}$/.test(data.phone.trim())) {
     errors.phone = 'Please enter a valid 10-digit Indian mobile number.';
   }
-
   return errors;
 };
 
-// ── Field component ─────────────────────────────────────────────────────────
 interface FieldProps {
   label: string;
   id: string;
@@ -36,7 +30,7 @@ interface FieldProps {
 const Field: React.FC<FieldProps> = ({ label, id, type = 'text', placeholder, value, error, onChange }) => (
   <div className="flex flex-col gap-1.5">
     <label htmlFor={id} className="text-sm font-semibold text-brand-dark">
-      {label} <span className="text-red-500">*</span>
+      {label}
     </label>
     <input
       id={id}
@@ -45,21 +39,16 @@ const Field: React.FC<FieldProps> = ({ label, id, type = 'text', placeholder, va
       placeholder={placeholder}
       value={value}
       onChange={onChange}
-      className={`w-full px-4 py-3 rounded-xl border text-sm outline-none transition-all duration-200
+      className={`w-full px-4 py-3 rounded-card border text-sm outline-none transition-colors duration-150
         ${error
-          ? 'border-red-400 focus:border-red-500 bg-red-50'
-          : 'border-gray-200 focus:border-brand-blue bg-white focus:ring-2 focus:ring-brand-blue/10'
+          ? 'border-red-400 bg-red-50'
+          : 'border-brand-border focus:border-brand-blue bg-white'
         }`}
     />
-    {error && (
-      <p className="text-xs text-red-500 flex items-center gap-1">
-        <span>⚠</span> {error}
-      </p>
-    )}
+    {error && <p className="text-xs text-red-500">{error}</p>}
   </div>
 );
 
-// ── Main form ───────────────────────────────────────────────────────────────
 const RegistrationForm: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({ name: '', email: '', phone: '' });
   const [errors, setErrors] = useState<FormErrors>({});
@@ -69,7 +58,6 @@ const RegistrationForm: React.FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    // Clear the field error as the user types
     if (errors[name as keyof FormErrors]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
@@ -77,7 +65,6 @@ const RegistrationForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     const validationErrors = validate(formData);
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
@@ -93,10 +80,8 @@ const RegistrationForm: React.FC = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
-
       const json: ApiResponse = await res.json();
       setResponse(json);
-
       if (json.success) {
         setFormData({ name: '', email: '', phone: '' });
         setErrors({});
@@ -104,128 +89,88 @@ const RegistrationForm: React.FC = () => {
         setErrors(json.errors as FormErrors);
       }
     } catch {
-      setResponse({
-        success: false,
-        message: 'Could not connect to the server. Please try again later.',
-      });
+      setResponse({ success: false, message: 'Could not connect to the server. Please try again later.' });
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <section id="register" className="py-20 bg-gradient-to-br from-[#EFF6FF] via-[#EDE9FE] to-[#DBEAFE]">
-      <div className="max-w-6xl mx-auto px-4 flex flex-col lg:flex-row gap-12 items-center">
-        {/* Left copy */}
-        <div className="flex-1">
-          <span className="inline-block bg-brand-blue/10 text-brand-blue text-sm font-semibold px-4 py-1.5 rounded-full mb-4">
-            Limited Seats Available
-          </span>
-          <h2 className="font-display font-black text-3xl sm:text-4xl text-brand-dark mb-4">
+    <section id="register" className="py-16 sm:py-20 bg-brand-surface border-t border-brand-border">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-12 items-center">
+        {/* LEFT: benefits / trust */}
+        <div>
+          <h2 className="font-extrabold text-3xl sm:text-4xl text-brand-dark mb-3">
             Ready to launch your child's tech journey?
           </h2>
-          <p className="text-brand-muted leading-relaxed mb-6">
+          <p className="text-brand-muted leading-relaxed mb-7">
             Fill in the form and our team will get in touch within 24 hours to confirm
-            your enrollment and share the session schedule.
+            enrollment and share the session schedule.
           </p>
 
-          {/* Trust badges */}
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3.5">
             {[
-              { icon: '✅', text: 'Live, interactive sessions with expert instructors' },
-              { icon: '📁', text: 'All learning materials provided digitally' },
-              { icon: '🏅', text: 'Certificate of completion for every participant' },
-              { icon: '🔄', text: 'Full refund if cancelled 7+ days before start' },
+              { icon: '✓', text: 'Live, interactive sessions with expert mentors' },
+              { icon: '✓', text: 'All learning materials provided digitally' },
+              { icon: '✓', text: 'Certificate of completion for every participant' },
+              { icon: '✓', text: 'Full refund if cancelled 7+ days before start' },
             ].map(({ icon, text }) => (
-              <div key={text} className="flex items-start gap-3">
-                <span className="text-lg">{icon}</span>
+              <div key={text} className="flex items-center gap-3">
+                <span className="w-6 h-6 shrink-0 rounded-card bg-brand-orange/15 text-brand-orange-dark flex items-center justify-center text-xs font-bold">
+                  {icon}
+                </span>
                 <p className="text-sm text-brand-dark font-medium">{text}</p>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Form card */}
-        <div className="w-full lg:w-[440px] bg-white rounded-3xl shadow-xl p-8">
-          <h3 className="font-display font-black text-xl text-brand-dark mb-1">
-            Register Your Child
-          </h3>
-          <p className="text-brand-muted text-sm mb-6">
-            AI & Robotics Summer Workshop · ₹2,999
-          </p>
+        {/* RIGHT: form card */}
+        <div className="bg-white rounded-card shadow-card-hover border border-brand-border p-7 sm:p-8">
+          <h3 className="font-extrabold text-xl text-brand-dark mb-1">Register Your Child</h3>
+          <p className="text-brand-muted text-sm mb-6">AI & Robotics Summer Workshop · ₹2,999</p>
 
-          {/* Success banner */}
           {response?.success && (
-            <div className="mb-6 bg-green-50 border border-green-200 rounded-2xl p-4 flex items-start gap-3">
-              <span className="text-2xl">🎉</span>
-              <div>
-                <p className="font-display font-bold text-green-800 text-sm">
-                  You're in!
-                </p>
-                <p className="text-green-700 text-sm mt-0.5">{response.message}</p>
-              </div>
+            <div className="mb-5 bg-green-50 border border-green-200 rounded-card p-4">
+              <p className="font-bold text-green-800 text-sm">You're in!</p>
+              <p className="text-green-700 text-sm mt-0.5">{response.message}</p>
             </div>
           )}
-
-          {/* Error banner */}
           {response && !response.success && !response.errors && (
-            <div className="mb-6 bg-red-50 border border-red-200 rounded-2xl p-4">
+            <div className="mb-5 bg-red-50 border border-red-200 rounded-card p-4">
               <p className="text-red-700 text-sm">{response.message}</p>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
-            <Field
-              label="Parent / Guardian Name"
-              id="name"
-              placeholder="Rajesh Kumar"
-              value={formData.name}
-              error={errors.name}
-              onChange={handleChange}
-            />
-            <Field
-              label="Email Address"
-              id="email"
-              type="email"
-              placeholder="rajesh@example.com"
-              value={formData.email}
-              error={errors.email}
-              onChange={handleChange}
-            />
-            <Field
-              label="Phone Number"
-              id="phone"
-              type="tel"
-              placeholder="9876543210"
-              value={formData.phone}
-              error={errors.phone}
-              onChange={handleChange}
-            />
+          <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
+            <Field label="Parent / Guardian Name" id="name" placeholder="Rajesh Kumar"
+              value={formData.name} error={errors.name} onChange={handleChange} />
+            <Field label="Email Address" id="email" type="email" placeholder="rajesh@example.com"
+              value={formData.email} error={errors.email} onChange={handleChange} />
+            <Field label="Phone Number" id="phone" type="tel" placeholder="9876543210"
+              value={formData.phone} error={errors.phone} onChange={handleChange} />
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-brand-blue hover:bg-brand-indigo disabled:bg-brand-blue/50 text-white font-display font-bold text-base py-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow hover:shadow-lg hover:-translate-y-0.5 disabled:translate-y-0 disabled:cursor-not-allowed"
+              className="w-full bg-brand-blue hover:bg-brand-blue-dark disabled:opacity-60 text-white font-bold text-sm py-3.5 rounded-card transition-colors duration-150 flex items-center justify-center gap-2 mt-1"
             >
               {loading ? (
                 <>
-                  <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24" fill="none">
+                  <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
                   </svg>
                   Submitting…
                 </>
               ) : (
-                'Confirm Enrollment →'
+                'Confirm Enrollment'
               )}
             </button>
 
             <p className="text-xs text-center text-brand-muted">
               By registering, you agree to Kidrove's{' '}
-              <a href="#" className="text-brand-blue hover:underline">
-                Terms & Privacy Policy
-              </a>
-              .
+              <a href="#" className="text-brand-blue hover:underline">Terms & Privacy Policy</a>.
             </p>
           </form>
         </div>

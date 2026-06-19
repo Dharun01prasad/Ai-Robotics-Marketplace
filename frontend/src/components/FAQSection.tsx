@@ -6,31 +6,31 @@ const faqs: FAQ[] = [
     id: 1,
     question: 'Does my child need any prior coding or robotics experience?',
     answer:
-      'Not at all! The workshop is designed for complete beginners. We start with the very basics of programming using Scratch, then gradually move to Python and AI tools. Every concept is introduced step-by-step with friendly instructors.',
+      'Not at all. The workshop is built for complete beginners — we start with the basics in Scratch, then move to Python and AI tools, step by step.',
   },
   {
     id: 2,
     question: 'What equipment does my child need?',
     answer:
-      'A laptop or desktop computer (Windows/Mac/Linux) or a tablet with a keyboard, a stable internet connection, and a web browser. All software tools used in the workshop are free and browser-based — no installations required.',
+      'A laptop, desktop, or tablet with a keyboard, plus a stable internet connection. All software used is free and browser-based — no installations required.',
   },
   {
     id: 3,
-    question: 'Are the sessions live, or are they pre-recorded?',
+    question: 'Are the sessions live, or pre-recorded?',
     answer:
-      'All sessions are live and interactive, conducted via Zoom. Kids can ask questions, participate in challenges, and collaborate with peers in real time. Sessions are also recorded and shared, so your child never misses out.',
+      'All sessions are live on Zoom, with real-time Q&A and peer collaboration. Recordings are also shared so your child never misses a session.',
   },
   {
     id: 4,
-    question: 'What is the schedule for the sessions?',
+    question: 'What is the weekly schedule?',
     answer:
-      'Sessions run on weekends (Saturday & Sunday), 10 AM – 12:30 PM IST, for 4 weeks starting July 15, 2026. Each session is 2.5 hours with a short break in between.',
+      'Saturdays & Sundays, 10:00 AM – 12:30 PM IST, for 4 weeks starting July 15, 2026. Each session is 2.5 hours with a short break.',
   },
   {
     id: 5,
-    question: 'Is there a refund if we cancel after registering?',
+    question: 'Is there a refund policy?',
     answer:
-      'Yes. A full refund is available if you cancel at least 7 days before the workshop start date (July 15, 2026). Cancellations after that date are not eligible for a refund, but you can transfer your spot to another child.',
+      'Yes — a full refund is available if cancelled 7+ days before July 15, 2026. After that, seats can be transferred but are non-refundable.',
   },
 ];
 
@@ -38,17 +38,15 @@ const FAQItem: React.FC<{ faq: FAQ }> = ({ faq }) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="border border-gray-200 rounded-2xl overflow-hidden">
+    <div className="border border-brand-border rounded-card bg-white">
       <button
-        className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left hover:bg-brand-surface transition-colors"
+        className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left"
         onClick={() => setOpen(!open)}
         aria-expanded={open}
       >
-        <span className="font-display font-bold text-brand-dark text-base">
-          {faq.question}
-        </span>
+        <span className="font-semibold text-brand-dark text-sm">{faq.question}</span>
         <span
-          className={`shrink-0 w-8 h-8 rounded-full bg-brand-blue/10 flex items-center justify-center text-brand-blue font-bold transition-transform duration-300 ${
+          className={`shrink-0 w-6 h-6 rounded-card bg-brand-blue/10 flex items-center justify-center text-brand-blue text-sm font-bold transition-transform duration-150 ${
             open ? 'rotate-45' : ''
           }`}
         >
@@ -56,7 +54,7 @@ const FAQItem: React.FC<{ faq: FAQ }> = ({ faq }) => {
         </span>
       </button>
       {open && (
-        <div className="px-6 pb-5">
+        <div className="px-5 pb-4">
           <p className="text-brand-muted text-sm leading-relaxed">{faq.answer}</p>
         </div>
       )}
@@ -65,36 +63,26 @@ const FAQItem: React.FC<{ faq: FAQ }> = ({ faq }) => {
 };
 
 const FAQSection: React.FC = () => (
-  <section id="faq" className="py-20 bg-white">
-    <div className="max-w-3xl mx-auto px-4">
-      {/* Section header */}
-      <div className="text-center mb-12">
-        <span className="inline-block bg-brand-orange/10 text-brand-orange text-sm font-semibold px-4 py-1.5 rounded-full mb-3">
-          FAQs
-        </span>
-        <h2 className="font-display font-black text-3xl sm:text-4xl text-brand-dark">
-          Got questions? We've got answers.
+  <section id="faq" className="py-16 sm:py-20 bg-white">
+    <div className="max-w-3xl mx-auto px-4 sm:px-6">
+      <div className="mb-8">
+        <h2 className="font-extrabold text-3xl sm:text-4xl text-brand-dark">
+          Frequently asked questions
         </h2>
       </div>
 
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-2.5">
         {faqs.map((faq) => (
           <FAQItem key={faq.id} faq={faq} />
         ))}
       </div>
 
-      {/* Still have questions */}
-      <div className="mt-10 text-center bg-brand-surface rounded-2xl p-6">
-        <p className="text-brand-muted text-sm">
-          Still have a question?{' '}
-          <a
-            href="mailto:hello@kidrove.com"
-            className="text-brand-blue font-semibold hover:underline"
-          >
-            Email us at hello@kidrove.com
-          </a>
-        </p>
-      </div>
+      <p className="text-brand-muted text-sm mt-6">
+        Still have a question?{' '}
+        <a href="mailto:hello@kidrove.com" className="text-brand-blue font-semibold hover:underline">
+          Email hello@kidrove.com
+        </a>
+      </p>
     </div>
   </section>
 );
