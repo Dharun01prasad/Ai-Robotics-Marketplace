@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { FormData, FormErrors, ApiResponse } from '../types';
+import { Input } from './ui/input';
+import { Highlight } from './ui/hero-highlight';
 
 const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
@@ -16,38 +18,6 @@ const validate = (data: FormData): FormErrors => {
   }
   return errors;
 };
-
-interface FieldProps {
-  label: string;
-  id: string;
-  type?: string;
-  placeholder: string;
-  value: string;
-  error?: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
-
-const Field: React.FC<FieldProps> = ({ label, id, type = 'text', placeholder, value, error, onChange }) => (
-  <div className="flex flex-col gap-1.5">
-    <label htmlFor={id} className="text-sm font-semibold text-brand-dark">
-      {label}
-    </label>
-    <input
-      id={id}
-      name={id}
-      type={type}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-      className={`w-full px-4 py-3 rounded-card border text-sm outline-none transition-colors duration-150
-        ${error
-          ? 'border-red-400 bg-red-50'
-          : 'border-brand-border focus:border-brand-blue bg-white'
-        }`}
-    />
-    {error && <p className="text-xs text-red-500">{error}</p>}
-  </div>
-);
 
 const RegistrationForm: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({ name: '', email: '', phone: '' });
@@ -98,10 +68,14 @@ const RegistrationForm: React.FC = () => {
   return (
     <section id="register" className="py-16 sm:py-20 bg-brand-surface border-t border-brand-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-12 items-center">
-        {/* LEFT: benefits / trust */}
+        {/* LEFT: benefits / trust with highlight effect */}
         <div>
-          <h2 className="font-extrabold text-3xl sm:text-4xl text-brand-dark mb-3">
-            Ready to launch your child's tech journey?
+          <h2 className="font-extrabold text-3xl sm:text-4xl text-brand-dark mb-3 leading-tight">
+            Ready to launch your child's{' '}
+            <Highlight className="text-brand-dark dark:text-white bg-gradient-to-r from-brand-blue/40 to-brand-orange/40 dark:from-brand-blue/60 dark:to-brand-orange/60">
+              tech journey
+            </Highlight>
+            ?
           </h2>
           <p className="text-brand-muted leading-relaxed mb-7">
             Fill in the form and our team will get in touch within 24 hours to confirm
@@ -142,13 +116,33 @@ const RegistrationForm: React.FC = () => {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
-            <Field label="Parent / Guardian Name" id="name" placeholder="Rajesh Kumar"
-              value={formData.name} error={errors.name} onChange={handleChange} />
-            <Field label="Email Address" id="email" type="email" placeholder="rajesh@example.com"
-              value={formData.email} error={errors.email} onChange={handleChange} />
-            <Field label="Phone Number" id="phone" type="tel" placeholder="9876543210"
-              value={formData.phone} error={errors.phone} onChange={handleChange} />
+          <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-6">
+            <Input
+              label="Parent / Guardian Name"
+              id="name"
+              name="name"
+              value={formData.name}
+              error={errors.name}
+              onChange={handleChange}
+            />
+            <Input
+              label="Email Address"
+              id="email"
+              name="email"
+              type="email"
+              value={formData.email}
+              error={errors.email}
+              onChange={handleChange}
+            />
+            <Input
+              label="Phone Number"
+              id="phone"
+              name="phone"
+              type="tel"
+              value={formData.phone}
+              error={errors.phone}
+              onChange={handleChange}
+            />
 
             <button
               type="submit"
@@ -168,7 +162,7 @@ const RegistrationForm: React.FC = () => {
               )}
             </button>
 
-            <p className="text-xs text-center text-brand-muted">
+            <p className="text-xs text-center text-brand-muted -mt-2">
               By registering, you agree to Kidrove's{' '}
               <a href="#" className="text-brand-blue hover:underline">Terms & Privacy Policy</a>.
             </p>
