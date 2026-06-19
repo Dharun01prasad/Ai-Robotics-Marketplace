@@ -3,7 +3,7 @@ import { FormData, FormErrors, ApiResponse } from '../types';
 import { Input } from './ui/input';
 import { Highlight } from './ui/hero-highlight';
 
-const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+const API_BASE = process.env.REACT_APP_API_URL;
 
 const validate = (data: FormData): FormErrors => {
   const errors: FormErrors = {};
